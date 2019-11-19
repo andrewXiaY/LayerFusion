@@ -13,8 +13,8 @@ Computer Vision Project on Self-Supervised Learning
             -> _check_and_coerce_cfg_value_type : check the type of dict value
 
 
-data:
-     -> datasets
+    data:
+    -> datasets
             -> disk_dataset
                         -> DiskImageDataset(torch.utils.data.Dataset) (Not be used) : load data from disk
             -> ssl_dataset
@@ -25,4 +25,5 @@ data:
 
 
 # TODO:
-    - 11.19 : add more pretext task transformations, rotate already implemented in sslime, TODO: Exemplar, Rel. Patch Loc., Jigsaw (Revisiting Self-Supervised Visual Representation Learning, Alexander Kolesnikov etc.)
+    - 11.19 : add more pretext task transformations, rotate already implemented in sslime, 
+      TODO: Exemplar, Rel. Patch Loc., Jigsaw (Revisiting Self-Supervised Visual Representation Learning, Alexander Kolesnikov etc.)
