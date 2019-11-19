@@ -2,22 +2,14 @@
 Computer Vision Project on Self-Supervised Learning
 
 # architecture
-core: 
-
+    core: 
     -> config.py
-            
             -> AttrDict : subclass dict which will be used to save all configurations of model and data
-            
             -> merge_dicts : replace default configurations by user defined one
-            
             -> cfg_from_file : load configurations from specific file
-            
             -> print_cfg : print configurations
-            
             -> cfg_from_list : load configurations from a list object
-            
             -> _decode_cfg_value : perform some transformations on dict value from various object to desired object
-            
             -> _check_and_coerce_cfg_value_type : check the type of dict value
 
 
