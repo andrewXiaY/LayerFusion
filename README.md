@@ -25,5 +25,5 @@ Computer Vision Project on Self-Supervised Learning
 
 
 # TODO:
-    - 11.19 : add more pretext task transformations, rotate already implemented in sslime, 
+    - 11.19 ~ 11.21 : add more pretext task transformations, rotate already implemented in sslime, 
       TODO: Exemplar, Rel. Patch Loc., Jigsaw (Revisiting Self-Supervised Visual Representation Learning, Alexander Kolesnikov etc.)
