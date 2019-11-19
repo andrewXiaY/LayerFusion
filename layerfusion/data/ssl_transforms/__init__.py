@@ -14,7 +14,10 @@ from layerfusion.data.ssl_transforms.basic_transforms_wrapper import (
     TorchVisionTransformsWrapper,
 )
 
-TRANSFORMS = {"ssl_rotate": SSL_IMG_ROTATE}
+TRANSFORMS = {"ssl_rotate": SSL_IMG_ROTATE,
+              "ssl_jigsaw": None,
+              "ssl_rel_patch_loc": None,
+              "ssl_exemplar": None}
 
 
 def get_transform(transforms_list):
