@@ -9,13 +9,14 @@
 import torchvision.transforms as transforms
 
 from layerfusion.data.ssl_transforms.ssl_rotate import SSL_IMG_ROTATE
+from layerfusion.data.ssl_transforms.ssl_jigsaw import SSL_IMG_JIGSAW
 from layerfusion.data.ssl_transforms.basic_transforms_wrapper import (
     TORCHVISION_TRANSFORMS,
     TorchVisionTransformsWrapper,
 )
 
 TRANSFORMS = {"ssl_rotate": SSL_IMG_ROTATE,
-              "ssl_jigsaw": None,
+              "ssl_jigsaw": SSL_IMG_JIGSAW,
               "ssl_rel_patch_loc": None,
               "ssl_exemplar": None}
 
