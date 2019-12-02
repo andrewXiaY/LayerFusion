@@ -27,3 +27,4 @@ Computer Vision Project on Self-Supervised Learning
 # TODO:
     - 11.19 ~ 11.21 : add more pretext task transformations, rotate already implemented in sslime.
       TODO: Exemplar, Rel. Patch Loc., Jigsaw (Revisiting Self-Supervised Visual Representation Learning, Alexander Kolesnikov etc.)
+    - 12.2 ~ 12.9 : finish model part(VGG_A: derived from sslime) and generate 2 models: rotation and jigsaw, then perform visualization on each layer to see the results
