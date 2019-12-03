@@ -56,11 +56,11 @@ class VGG_A(nn.Module):
         )
         pool5 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        # flatten = Flatten(1)
+        flatten = Flatten(1)
         self._feature_blocks = nn.ModuleList([conv1, pool1, conv2, pool2, conv3, conv4, pool3,
-                                              conv5, conv6, pool4, conv7, conv8, pool5])
+                                              conv5, conv6, pool4, conv7, conv8, pool5, flatten])
         self.all_feat_names = ["conv1", "pool1", "conv2", "pool2", "conv3", "conv4", "pool3",
-                               "conv5", "conv6", "pool4", "conv7", "conv8", "pool5"]
+                               "conv5", "conv6", "pool4", "conv7", "conv8", "pool5", "flatten"]
         assert len(self.all_feat_names) == len(self._feature_blocks)
 
     def forward(self, x, out_feat_keys=None):

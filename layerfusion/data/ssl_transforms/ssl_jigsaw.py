@@ -36,7 +36,7 @@ class SSL_IMG_JIGSAW(object):
         indices = self.indices if self.indices else set(range(len(sample["data"])))
         for idx in range(len(sample["data"])):
             if idx in indices:
-                label = torch.randint(self.dimension**2, [1]).item()
+                label = torch.randint(len(self.all_permutations), [1]).item()
                 pattern = self.all_permutations[label]
                 img = jigsaw_transform(sample["data"][idx], pattern, self.dimension)
                 data.append(img)
