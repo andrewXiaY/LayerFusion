@@ -18,5 +18,4 @@ class SSL_IMG_ROTATE(object):
     def __call__(self, sample):
         label = np.array(torch.randint(self.num_angles, [1]).item(), dtype=np.float32)
         img = TF.rotate(sample, self.angles[label])
-        img.show()
         return {"data": img, "label": label}

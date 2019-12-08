@@ -6,7 +6,7 @@ from workflows.train_loop import generic_train_loop
 from workflows.eval_loop import generic_eval_loop
 from models.alex_net import AlexNet
 from datasets.dataset import DiskImageDataset
-from . import *
+from configs import * 
 
 TASK = "ssl_rotate"
 checkpoints_path = "./checkpoints/" + TASK
