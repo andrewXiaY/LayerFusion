@@ -10,7 +10,7 @@ def generic_train_loop(train_loader, model, criterion, optimizer, i_epoch):
     for i_batch, batch in enumerate(train_loader):
         batch["data"] = Variable(batch["data"]).cuda()
         batch["label"] = Variable(batch["label"]).cuda().long()
-        out = model(batch["data"])
+        out = model(batch["data"])["output"]
         loss = criterion(out, batch["label"].data)
         
         optimizer.zero_grad()

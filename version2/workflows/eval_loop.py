@@ -9,7 +9,7 @@ def generic_eval_loop(val_loader, criterion, model):
         batch["data"] = batch["data"].cuda()
         batch["label"] = batch["label"].cuda().long()
         
-        out = model(batch["data"])
+        out = model(batch["data"])["output"]
         validation_loss += criterion(out, batch["label"].data).item()
         pred = out.data.max(1, keepdim=True)[1] # get the index of the max log-probability
         correct += pred.eq(batch["label"].data.view_as(pred)).cpu().sum()

@@ -1,20 +1,18 @@
 import torch
+import os
 import torch.nn as nn
 import torch.nn.functional as TF
 from workflows.train_loop import generic_train_loop
 from workflows.eval_loop import generic_eval_loop
 from models.alex_net import AlexNet
 from datasets.dataset import DiskImageDataset
+from . import *
 
-OUTFEATURES = {"ssl_rotate": 4,
-               "ssl_jigsaw": 24}
+TASK = "ssl_jigsaw"
+checkpoints_path = "./checkpoints/" + TASK
 
-TASK = "ssl_rotate"
-BATCH_SIZE = 32
-MAX_EPOCH = 20
-DEFAULT_SHAPE = (96, 96)
-TRAIN_DATAPATH = "./data/unsupervised_train"
-TEST_DATAPATH = "./data/unsupervised_test"
+if not os.path.exists(checkpoints_path):
+    os.mkdir(checkpoints_path)
 
 dataset_train = DiskImageDataset(TRAIN_DATAPATH, TASK, end=-1)
 dataset_test = DiskImageDataset(TEST_DATAPATH, TASK, end=-1)
@@ -44,5 +42,6 @@ optim = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay
 print("Training model ======>")
 for epoch in range(MAX_EPOCH):
     cur_loss = generic_train_loop(train_loader, model, criterion, optim, epoch + 1)
+    torch.save(model.state_dict(), os.path.join(checkpoints_path, f"model_{epoch + 1}.pth"))
     val_loss = generic_eval_loop(test_loader, criterion, model)
     

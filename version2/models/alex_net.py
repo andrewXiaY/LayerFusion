@@ -49,23 +49,25 @@ class AlexNet(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        fc3 = nn.Sequential(
+        output = nn.Sequential(
             nn.Linear(1024, out_features),
             nn.ReLU(inplace=True)
         )
 
         
         self._feature_blocks = nn.ModuleList(
-            [conv1, pool1, conv2, pool2, conv3, conv4, conv5, pool5, flatten, fc1, fc2, fc3]
+            [conv1, pool1, conv2, pool2, conv3, conv4, conv5, pool5, flatten, fc1, fc2, output]
         )
         self.all_feat_names = [
             "conv1", "pool1", "conv2", "pool2", "conv3", "conv4", 
-            "conv5", "pool5", "flatten", "fc1", "fc2", "fc3"
+            "conv5", "pool5", "flatten", "fc1", "fc2", "output"
         ]
 
         assert len(self.all_feat_names) == len(self._feature_blocks)
 
-    def forward(self, x):     
-        for layer in self._feature_blocks:
+    def forward(self, x):
+        feats = {}  
+        for ind, layer in enumerate(self._feature_blocks):
             x = layer(x)
-        return x
+            feats[self.all_feat_names[ind]] = x
+        return feats
