@@ -2,9 +2,9 @@
 import torch.nn as nn
 import torch
 
-class AlexNet(nn.Module):
+class AlexNetReg(nn.Module):
     def __init__(self, out_features = 4):
-        super(AlexNet, self).__init__()
+        super(AlexNetReg, self).__init__()
 
         conv1 = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=11, stride=2), # => 43 * 43 
@@ -40,17 +40,17 @@ class AlexNet(nn.Module):
         flatten = nn.Sequential(nn.Flatten())
 
         fc1 = nn.Sequential(
-            nn.Linear(4096, 2048),
+            nn.Linear(4096, 8192),
             nn.ReLU(inplace=True),
         )
 
         fc2 = nn.Sequential(
-            nn.Linear(2048, 1024),
+            nn.Linear(8192, 8192*2),
             nn.ReLU(inplace=True),
         )
 
         output = nn.Sequential(
-            nn.Linear(1024, out_features),
+            nn.Linear(8192*2, out_features),
             nn.ReLU(inplace=True)
         )
 

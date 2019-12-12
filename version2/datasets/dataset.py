@@ -20,7 +20,7 @@ class DiskImageDataset(Dataset):
         for file in os.listdir(path)[:end]:
             if(file.endswith('.png')):
                 self.data_path.append(os.path.join(path, file))
-
+        
         self.transform = transforms.Compose([TRANSFORMS[ssl_transform](), 
                                              TRANSFORMS["to_tensor"](),
                                              TRANSFORMS["Normalize"](([0.44671062, 0.43980984, 0.40664645], [0.26034098, 0.25657727, 0.27126738]))])
@@ -41,3 +41,31 @@ class DiskImageDataset(Dataset):
 
     def num_samples(self):
         return len(self.data_path)
+
+
+class DefaultDataset(Dataset):
+    def __init__(self, src):
+        self.data = np.load(src[0])
+        self.labels = np.load(src[1])
+        self.transform = transforms.Compose([TRANSFORMS["to_tensor"](),
+                                             TRANSFORMS["Normalize"](([0.44671062, 0.43980984, 0.40664645], 
+                                                                      [0.26034098, 0.25657727, 0.27126738]
+                                                                      ))])
+        assert len(self.data) == len(self.labels)
+
+    def __len__(self):
+        return self.data.shape[0]
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+    
+        path = self.data[idx]
+        img = Image.open("/".join(path.split("\\")), mode='r').convert("RGB")
+        label = self.labels[idx]
+        transformed  = self.transform({"data": img, "label": label})
+
+        return transformed # contains data and labels
+
+    def num_samples(self):
+        return self.data.shape[0]

@@ -1,14 +1,17 @@
 
 import torch
 
-def generic_eval_loop(val_loader, criterion, model):
+def generic_eval_loop(val_loader, criterion, model, task="long"):
     model.eval()
     validation_loss, correct = 0, 0
     
     for ind, batch in enumerate(val_loader):
         batch["data"] = batch["data"].cuda()
-        batch["label"] = batch["label"].cuda().long()
-        
+        if task == "long":
+            batch["label"] = batch["label"].cuda().long()
+        else:
+            batch["label"] = batch["label"].cuda()
+
         out = model(batch["data"])["output"]
         validation_loss += criterion(out, batch["label"].data).item()
         pred = out.data.max(1, keepdim=True)[1] # get the index of the max log-probability
