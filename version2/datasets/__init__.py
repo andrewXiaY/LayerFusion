@@ -3,6 +3,9 @@ from .ssl_rotate import SSL_IMG_ROTATE
 from .ssl_moveblur import SSL_Move
 from .ssl_exchange_pos import SSL_EXCHANGE_POS
 from .ssl_noise_add import SSL_NOISE_ADD
+from .ssl_gaussian_blur import SSL_GAUSSIAN_BLUR
+from .ssl_box_blur import SSL_BOX_BLUR
+from .ssl_color import SSL_COLOR
 import numpy as np
 import torch
 from torchvision import transforms
@@ -48,7 +51,10 @@ TRANSFORMS = {"ssl_rotate": SSL_IMG_ROTATE,
               "ssl_moveblur": SSL_Move,
               "ssl_exchange_pos": SSL_EXCHANGE_POS,
               "ssl_noise_add": SSL_NOISE_ADD,
+              "ssl_gaussian_blur": SSL_GAUSSIAN_BLUR,
+              "ssl_box_blur": SSL_BOX_BLUR,
               "to_tensor": ToTensor,
+              "ssl_color": SSL_COLOR,
               "Normalize": Normalize,
               "default": None,
               "ssl_rel_patch_loc": None,

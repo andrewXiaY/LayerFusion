@@ -5,10 +5,11 @@ import torch.nn.functional as TF
 from workflows.train_loop import generic_train_loop
 from workflows.eval_loop import generic_eval_loop
 from models.alex_net_regression import AlexNetReg
+from models.alex_net import AlexNet
 from datasets.dataset import DiskImageDataset
 from configs import *
 
-TASK = "ssl_exchange_pos"
+TASK = "ssl_gaussian_blur"
 checkpoints_path = "./checkpoints/" + TASK
 
 if not os.path.exists(checkpoints_path):
@@ -30,18 +31,18 @@ train_loader = torch.utils.data.DataLoader(dataset_train, batch_size=BATCH_SIZE,
 test_loader = torch.utils.data.DataLoader(dataset_test, batch_size=BATCH_SIZE, shuffle=True)
 
 # initialize model
-model = AlexNetReg(OUTFEATURES[TASK])
+model = AlexNet(OUTFEATURES[TASK])
 model.cuda()
 
 # initialize loss function
-criterion = nn.SmoothL1Loss()
+criterion = nn.CrossEntropyLoss()
 
 # initialize optimizer
 optim = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay=0.000001)
 
 print("Training model ======>")
 for epoch in range(MAX_EPOCH):
-    cur_loss = generic_train_loop(train_loader, model, criterion, optim, epoch + 1, task="float")
+    cur_loss = generic_train_loop(train_loader, model, criterion, optim, epoch + 1, task="long")
     torch.save(model.state_dict(), os.path.join(checkpoints_path, f"model_{epoch + 1}.pth"))
-    val_loss = generic_eval_loop(test_loader, criterion, model, task="float")
+    val_loss = generic_eval_loop(test_loader, criterion, model, task="long")
     

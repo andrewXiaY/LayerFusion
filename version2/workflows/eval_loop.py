@@ -15,7 +15,8 @@ def generic_eval_loop(val_loader, criterion, model, task="long"):
         out = model(batch["data"])["output"]
         validation_loss += criterion(out, batch["label"].data).item()
         pred = out.data.max(1, keepdim=True)[1] # get the index of the max log-probability
-        correct += pred.eq(batch["label"].data.view_as(pred)).cpu().sum()
+        if task == "long":
+            correct += pred.eq(batch["label"].data.view_as(pred)).cpu().sum()
     
     validation_loss /= ind 
     print('Validation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(

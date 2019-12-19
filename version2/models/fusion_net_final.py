@@ -19,6 +19,7 @@ class FusionNet(nn.Module):
     def __init__(self, parameters, classes_num=10):
         super(FusionNet, self).__init__()
         self.frozen_models = []
+        self.frozen_dedicated_fc = []
 
         for params in parameters:
             model = load_model(params)
@@ -27,10 +28,12 @@ class FusionNet(nn.Module):
             for ps in model.parameters():
                 ps.requires_grad = False
             self.frozen_models.append(model)
+            
+            self.frozen_dedicated_fc.append(nn.Sequential(nn.Linear(4096, 2048), nn.ReLU(inplace=True)).cuda())
 
         self.fc1 = nn.Sequential(
             nn.Dropout(0.5),
-            nn.Linear(4096 * len(self.frozen_models), 4096),
+            nn.Linear(2048 * len(self.frozen_models), 4096),
             nn.ReLU(inplace=True)
         )
 
@@ -54,8 +57,8 @@ class FusionNet(nn.Module):
     def forward(self, x):
         output = {}
         frozen_layer = []
-        for m in self.frozen_models:
-            frozen_layer.append(m(x)["flatten"])
+        for ind, m in enumerate(self.frozen_models):
+            frozen_layer.append(self.frozen_dedicated_fc[ind](m(x)["flatten"]))
 
         x = torch.cat(frozen_layer, dim=1)
         output["flatten"] = x
